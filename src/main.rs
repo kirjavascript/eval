@@ -41,6 +41,14 @@ fn perl(script: &str) -> io::Output {
     )
 }
 
+fn python(script: &str) -> io::Output {
+    run!(
+        .arg("python")
+        .arg("-c")
+        .arg(script)
+    )
+}
+
 fn haskell(script: &str) -> io::Output {
     match io::write("./repl/repl.hs", script) {
         Ok(_) => run!(.arg("bash")
@@ -81,6 +89,7 @@ async fn main() {
                     "perl" => warp::reply::json(&perl(script)),
                     "haskell" => warp::reply::json(&haskell(script)),
                     "go" => warp::reply::json(&go(script)),
+                    "python" => warp::reply::json(&python(script)),
                     _ => {
                         warp::reply::json(&(false, "invalid language"))
                     }

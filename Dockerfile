@@ -27,6 +27,8 @@ RUN pacman -S nodejs --noconfirm
 # go
 RUN pacman -S go --noconfirm
 
+RUN pacman -S python --noconfirm
+
 # c/c++
 # rust
 # swift
