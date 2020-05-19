@@ -1,5 +1,3 @@
-## safely evaluate code from user input
-
 built on [warp](https://github.com/seanmonstar/warp) + [podman](https://podman.io/)
 
 build container
