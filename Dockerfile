@@ -27,12 +27,15 @@ RUN pacman -S nodejs --noconfirm
 # go
 RUN pacman -S go --noconfirm
 
+# python
 RUN pacman -S python --noconfirm
+
+# php
+RUN pacman -S php --noconfirm
 
 # c/c++
 # rust
 # swift
-# python
 # vim
 # nim
 # zig
