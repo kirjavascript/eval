@@ -50,6 +50,22 @@ fn haskell(script: &str) -> io::Output {
     }
 }
 
+fn go(script: &str) -> io::Output {
+    let code = format!(r#"
+        package main
+        import "fmt"
+        func main() {{
+            {}
+        }}
+    "#, script);
+    match io::write("./repl/repl.go", &code) {
+        Ok(_) => run!(.arg("bash")
+                .arg("-c")
+                .arg("go run /repl/repl.go")),
+        Err(err) => (false, err.to_string()),
+    }
+}
+
 #[tokio::main]
 async fn main() {
     let repl = warp::path!(String)
@@ -64,6 +80,7 @@ async fn main() {
                     "ruby" => warp::reply::json(&ruby(script)),
                     "perl" => warp::reply::json(&perl(script)),
                     "haskell" => warp::reply::json(&haskell(script)),
+                    "go" => warp::reply::json(&go(script)),
                     _ => {
                         warp::reply::json(&(false, "invalid language"))
                     }

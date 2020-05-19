@@ -9,8 +9,7 @@ podman build -t eval .
 start HTTP server
 
 ```bash
-cargo build --release
-./target/release/eval
+cargo run --release
 ```
 
 run some code

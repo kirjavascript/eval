@@ -25,11 +25,18 @@ RUN pacman -S ruby --noconfirm
 RUN pacman -S nodejs --noconfirm
 
 # go
+RUN pacman -S go --noconfirm
+
 # c/c++
 # rust
 # swift
 # python
 # vim
+# nim
+# zig
+# php
+# scheme
+# clojure
 
 RUN pacman -S cowsay --noconfirm
 
