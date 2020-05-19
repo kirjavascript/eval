@@ -1,45 +1,53 @@
-use std::io::{Read, Error};
-use std::process::{Command, Child, Stdio};
-use std::time::Duration;
-
+mod io;
 use warp::{Filter};
-use wait_timeout::ChildExt;
 
-static TIMEOUT: Duration = Duration::from_secs(1);
-
-fn run_command(command: String) -> Result<String, String> {
-    let mut child = Command::new("podman")
-        .arg("run")
-        .arg("--rm")
-        .arg("eval")
+fn bash(script: &str) -> io::Output {
+    run!(
         .arg("bash")
         .arg("-c")
-        .arg(command)
-        .stdout(Stdio::piped())
-        .stderr(Stdio::piped())
-        .spawn()
-        .map_err(|e| e.to_string())?;
-
-        let status_code = match child.wait_timeout(TIMEOUT).unwrap() {
-            Some(status) => status.code(),
-            None => {
-                child.kill().unwrap();
-                child.wait().unwrap().code()
-            }
-        }.unwrap_or(0);
-
-        let mut buffer = String::new();
-        if status_code == 0 {
-            child.stdout.unwrap().read_to_string(&mut buffer).unwrap();
-            Ok(buffer)
-        } else {
-            child.stderr.unwrap().read_to_string(&mut buffer).unwrap();
-            Err(buffer)
-        }
+        .arg(script)
+    )
 }
 
-fn output<T>(result: Result<T, T>) -> (bool, T) {
-    result.map_or_else(|a| (false, a), |b| (true, b))
+fn node(script: &str) -> io::Output {
+    run!(
+        .arg("node")
+        .arg("-p")
+        .arg(script)
+    )
+}
+
+fn deno(script: &str) -> io::Output {
+    run!(
+        .arg("deno")
+        .arg("eval")
+        .arg(script)
+    )
+}
+
+fn ruby(script: &str) -> io::Output {
+    run!(
+        .arg("ruby")
+        .arg("-e")
+        .arg(script)
+    )
+}
+
+fn perl(script: &str) -> io::Output {
+    run!(
+        .arg("perl")
+        .arg("-e")
+        .arg(script)
+    )
+}
+
+fn haskell(script: &str) -> io::Output {
+    match io::write("./repl/repl.hs", script) {
+        Ok(_) => run!(.arg("bash")
+                .arg("-c")
+                .arg("ghci -v0 < /repl/repl.hs")),
+        Err(err) => (false, err.to_string()),
+    }
 }
 
 #[tokio::main]
@@ -47,13 +55,19 @@ async fn main() {
     let repl = warp::path!(String)
         .and(warp::body::content_length_limit(1024))
         .and(warp::body::bytes())
-        .map(|
-            _type: String,
-            bytes: bytes::Bytes
-            | {
+        .map(|lang: String, bytes: bytes::Bytes| {
             if let Ok(script) = std::str::from_utf8(&bytes) {
-                let response = output(run_command(script.to_string()));
-                warp::reply::json(&response)
+                match lang.as_ref() {
+                    "bash" => warp::reply::json(&bash(script)),
+                    "node" => warp::reply::json(&node(script)),
+                    "deno" => warp::reply::json(&deno(script)),
+                    "ruby" => warp::reply::json(&ruby(script)),
+                    "perl" => warp::reply::json(&perl(script)),
+                    "haskell" => warp::reply::json(&haskell(script)),
+                    _ => {
+                        warp::reply::json(&(false, "invalid language"))
+                    }
+                }
             } else {
                 warp::reply::json(&(false, "pls provide valid utf8"))
             }

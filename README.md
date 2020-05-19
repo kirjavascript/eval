@@ -1,11 +1,11 @@
-## evaluate code from various languages, safely
+## safely evaluate code from user input
 
 built on [warp](https://github.com/seanmonstar/warp) + [podman](https://podman.io/)
 
 build container
 
 ```bash
-podman build -t eval eval/.
+podman build -t eval .
 ```
 
 start HTTP server
@@ -18,5 +18,5 @@ cargo build --release
 run some code
 
 ```bash
-curl -X POST --data-binary 'uname -a' http://localhost:8010/bash
+curl -X POST --data-binary 'whoami' http://localhost:8010/bash
 ```
