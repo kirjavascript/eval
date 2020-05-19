@@ -21,8 +21,6 @@ macro_rules! run {
             .arg("-v")
             .arg("./repl:/repl:ro")
             .arg("--rm")
-            .arg("timeout")
-            .arg("5")
             .arg("eval")
             $(
                 $(.$meth($($arg)*) )+
