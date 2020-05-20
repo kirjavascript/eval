@@ -33,14 +33,17 @@ RUN pacman -S python --noconfirm
 # php
 RUN pacman -S php --noconfirm
 
-# c/c++
-# rust
+# kotlin
 # swift
+# basic
+# intercal
+# lua
+# c++
+# rust
 # vim
 # nim
 # zig
 # scheme
-# lua
 # clojure
 
 RUN pacman -S cowsay --noconfirm

@@ -58,37 +58,45 @@ fn php(script: &str) -> io::Output {
 }
 
 fn haskell(script: &str) -> io::Output {
-    match io::write("./repl/repl.hs", script) {
-        Ok(_) => run!(.arg("bash")
-                .arg("-c")
-                .arg("ghci -v0 < /repl/repl.hs")),
-        Err(err) => (false, err.to_string()),
-    }
+    io::add_file(
+        "./repl/repl.hs",
+        script,
+        run!(
+            .arg("bash")
+            .arg("-c")
+            .arg("ghci -v0 < /repl/repl.hs")
+        )
+    )
 }
 
 fn gcc(script: &str) -> io::Output {
-    match io::write("./repl/repl.c", script) {
-        Ok(_) => run!(.arg("bash")
-                .arg("-c")
-                .arg("gcc -x c -o /a.out -w /repl/repl.c && /a.out")),
-        Err(err) => (false, err.to_string()),
-    }
+    io::add_file(
+        "./repl/repl.c",
+        script,
+        run!(
+            .arg("bash")
+            .arg("-c")
+            .arg("gcc -x c -o /a.out -w /repl/repl.c && /a.out")
+        )
+    )
 }
 
 fn go(script: &str) -> io::Output {
-    let code = format!(r#"
-        package main
-        import "fmt"
-        func main() {{
-            {}
-        }}
-    "#, script);
-    match io::write("./repl/repl.go", &code) {
-        Ok(_) => run!(.arg("bash")
-                .arg("-c")
-                .arg("go run /repl/repl.go")),
-        Err(err) => (false, err.to_string()),
-    }
+    io::add_file(
+        "./repl/repl.go",
+        &format!(r#"
+            package main
+            import "fmt"
+            func main() {{
+                {}
+            }}
+        "#, script),
+        run!(
+            .arg("bash")
+            .arg("-c")
+            .arg("go run /repl/repl.go")
+        )
+    )
 }
 
 #[tokio::main]
