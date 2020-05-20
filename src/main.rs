@@ -61,7 +61,7 @@ fn haskell(script: &str) -> io::Output {
     io::add_file(
         "./repl/repl.hs",
         script,
-        run!(
+        || run!(
             .arg("bash")
             .arg("-c")
             .arg("ghci -v0 < /repl/repl.hs")
@@ -73,7 +73,7 @@ fn gcc(script: &str) -> io::Output {
     io::add_file(
         "./repl/repl.c",
         script,
-        run!(
+        || run!(
             .arg("bash")
             .arg("-c")
             .arg("gcc -x c -o /a.out -w /repl/repl.c && /a.out")
@@ -91,7 +91,7 @@ fn go(script: &str) -> io::Output {
                 {}
             }}
         "#, script),
-        run!(
+        || run!(
             .arg("bash")
             .arg("-c")
             .arg("go run /repl/repl.go")

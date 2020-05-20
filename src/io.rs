@@ -78,9 +78,10 @@ fn write(path: &str, data: &str) -> Result<(), Error> {
     Ok(())
 }
 
-pub fn add_file(path: &str, data: &str, out: Output) -> Output {
+pub fn add_file<F>(path: &str, data: &str, out: F ) -> Output where
+F: Fn() -> Output {
     match write(path, data) {
-        Ok(_) => out,
+        Ok(_) => out(),
         Err(e) => (false, e.to_string()),
     }
 }
