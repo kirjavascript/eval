@@ -10,14 +10,20 @@ pub type Output = (bool, String);
 
 static TIMEOUT: Duration = Duration::from_secs(8);
 
+
 #[macro_export]
 macro_rules! run {
     (
         $( $( .$meth:ident($( $arg:expr ),*)),+)+
     ) => {{
+
         use std::process::{Command, Stdio};
+        let name = format!("eval-{}", uuid::Uuid::new_v4().to_string());
+
         let pod = Command::new("podman")
             .arg("run")
+            .arg("--name")
+            .arg(&name)
             .arg("-v")
             .arg("./repl:/repl:ro")
             .arg("--rm")
@@ -29,8 +35,14 @@ macro_rules! run {
             .stderr(Stdio::piped())
             .spawn();
 
-        crate::io::run_command(pod)
-            .map_or_else(|a| (false, a), |b| (true, b)) // this line copyright j`ey
+        let output = crate::io::run_command(pod)
+            .map_or_else(|a| (false, a), |b| (true, b)); // this line copyright j`ey
+
+        // cleanup
+        Command::new("podman")
+            .arg("kill").arg(&name).output().expect("could not kill container");
+
+        output
     }};
 }
 
@@ -56,7 +68,7 @@ pub fn run_command(command: Result<Child, Error>) -> Result<String, String> {
 }
 
 
-pub fn write(path: &str, data: &str) -> Result<(), Error> {
+fn write(path: &str, data: &str) -> Result<(), Error> {
     let path = Path::new(path);
     if let Some(parent) = path.parent() {
         fs::create_dir_all(parent)?;
@@ -64,4 +76,11 @@ pub fn write(path: &str, data: &str) -> Result<(), Error> {
     let mut file = File::create(path)?;
     file.write_all(data.as_bytes())?;
     Ok(())
+}
+
+pub fn add_file(path: &str, data: &str, out: Output) -> Output {
+    match write(path, data) {
+        Ok(_) => out,
+        Err(e) => (false, e.to_string()),
+    }
 }

@@ -9,3 +9,4 @@ warp = "0.2.2"
 bytes = "0.5"
 wait-timeout = "0.2.0"
 tokio = { version = "0.2", features = ["macros"] }
+uuid = { version = "0.8", features = ["v4"] }
