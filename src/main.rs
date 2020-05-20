@@ -66,6 +66,15 @@ fn haskell(script: &str) -> io::Output {
     }
 }
 
+fn gcc(script: &str) -> io::Output {
+    match io::write("./repl/repl.c", script) {
+        Ok(_) => run!(.arg("bash")
+                .arg("-c")
+                .arg("gcc -x c -o /a.out -w /repl/repl.c && /a.out")),
+        Err(err) => (false, err.to_string()),
+    }
+}
+
 fn go(script: &str) -> io::Output {
     let code = format!(r#"
         package main
@@ -99,6 +108,7 @@ async fn main() {
                     "go" => warp::reply::json(&go(script)),
                     "python" => warp::reply::json(&python(script)),
                     "php" => warp::reply::json(&php(script)),
+                    "gcc" => warp::reply::json(&gcc(script)),
                     _ => {
                         warp::reply::json(&(false, "invalid language"))
                     }

@@ -39,8 +39,8 @@ RUN pacman -S php --noconfirm
 # vim
 # nim
 # zig
-# php
 # scheme
+# lua
 # clojure
 
 RUN pacman -S cowsay --noconfirm
