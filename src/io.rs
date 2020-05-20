@@ -22,6 +22,10 @@ macro_rules! run {
 
         let pod = Command::new("podman")
             .arg("run")
+            .arg("--memory")
+            .arg("50m")
+            .arg("--memory-swap")
+            .arg("50m")
             .arg("--name")
             .arg(&name)
             .arg("-v")
