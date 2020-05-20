@@ -1,1 +1,1 @@
-main (){ printf("asd"); }
+void main() { printf("asd"); }
