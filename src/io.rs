@@ -58,11 +58,11 @@ pub fn run_command(command: Result<Child, Error>) -> Result<String, String> {
     }.unwrap_or(0);
 
     let mut buffer = String::new();
-    if status_code == 0 {
         child.stdout.expect("stdout").read_to_string(&mut buffer).ok();
+        child.stderr.expect("stderr").read_to_string(&mut buffer).ok();
+    if status_code == 0 {
         Ok(buffer)
     } else {
-        child.stderr.expect("stderr").read_to_string(&mut buffer).ok();
         Err(buffer)
     }
 }
