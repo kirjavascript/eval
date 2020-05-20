@@ -81,6 +81,18 @@ fn gcc(script: &str) -> io::Output {
     )
 }
 
+fn gpp(script: &str) -> io::Output {
+    io::add_file(
+        "./repl/repl.c",
+        script,
+        || run!(
+            .arg("bash")
+            .arg("-c")
+            .arg("g++ -x 'c++' -o /a.out -w /repl/repl.c && /a.out")
+        )
+    )
+}
+
 fn go(script: &str) -> io::Output {
     io::add_file(
         "./repl/repl.go",
@@ -117,6 +129,7 @@ async fn main() {
                     "python" => warp::reply::json(&python(script)),
                     "php" => warp::reply::json(&php(script)),
                     "gcc" => warp::reply::json(&gcc(script)),
+                    "g++" => warp::reply::json(&gpp(script)),
                     _ => {
                         warp::reply::json(&(false, "invalid language"))
                     }

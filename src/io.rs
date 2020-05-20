@@ -22,6 +22,8 @@ macro_rules! run {
 
         let pod = Command::new("podman")
             .arg("run")
+            .arg("--net")
+            .arg("none")
             .arg("--memory")
             .arg("50m")
             .arg("--memory-swap")
@@ -62,8 +64,8 @@ pub fn run_command(command: Result<Child, Error>) -> Result<String, String> {
     }.unwrap_or(0);
 
     let mut buffer = String::new();
-        child.stdout.expect("stdout").read_to_string(&mut buffer).ok();
-        child.stderr.expect("stderr").read_to_string(&mut buffer).ok();
+    child.stdout.expect("stdout").read_to_string(&mut buffer).ok();
+    child.stderr.expect("stderr").read_to_string(&mut buffer).ok();
     if status_code == 0 {
         Ok(buffer)
     } else {
