@@ -27,11 +27,13 @@ RUN pacman -S python --noconfirm
 # php
 RUN pacman -S php --noconfirm
 
+# lua
+RUN pacman -S lua --noconfirm
+
 # kotlin
 # swift
 # basic
 # intercal
-# lua
 # c++
 # rust
 # vim

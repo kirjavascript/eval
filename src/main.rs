@@ -57,6 +57,14 @@ fn php(script: &str) -> io::Output {
     )
 }
 
+fn lua(script: &str) -> io::Output {
+    run!(
+        .arg("lua")
+        .arg("-e")
+        .arg(script)
+    )
+}
+
 fn haskell(script: &str) -> io::Output {
     io::add_file(
         "./repl/repl.hs",
@@ -128,6 +136,7 @@ async fn main() {
                     "go" => warp::reply::json(&go(script)),
                     "python" => warp::reply::json(&python(script)),
                     "php" => warp::reply::json(&php(script)),
+                    "lua" => warp::reply::json(&lua(script)),
                     "gcc" => warp::reply::json(&gcc(script)),
                     "g++" => warp::reply::json(&gpp(script)),
                     _ => {
