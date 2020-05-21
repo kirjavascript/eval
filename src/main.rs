@@ -65,6 +65,14 @@ fn lua(script: &str) -> io::Output {
     )
 }
 
+fn racket(script: &str) -> io::Output {
+    run!(
+        .arg("racket")
+        .arg("-e")
+        .arg(script)
+    )
+}
+
 fn guile(script: &str) -> io::Output {
     run!(
         .arg("guile")
@@ -144,6 +152,7 @@ async fn main() {
                     "gcc" => warp::reply::json(&gcc(script)),
                     "g++" => warp::reply::json(&gpp(script)),
                     "guile" => warp::reply::json(&guile(script)),
+                    "racket" => warp::reply::json(&racket(script)),
                     _ => {
                         warp::reply::json(&(false, "invalid language"))
                     }
