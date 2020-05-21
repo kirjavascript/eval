@@ -112,7 +112,7 @@ fn vim(script: &str) -> io::Output {
                 if test -f "buffer"; then
                     cat buffer
                 else
-                    sed "s/^.*a terminal//" vimerr | sed "s/^.*pre-vimrc command line://"| xargs
+                    sed "s/^.*a terminal//" vimerr | sed "s/^.*pre-vimrc command line://"
                 fi
             "#)
         )
