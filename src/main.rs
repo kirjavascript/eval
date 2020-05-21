@@ -91,12 +91,12 @@ fn gcc(script: &str) -> io::Output {
 
 fn gpp(script: &str) -> io::Output {
     io::add_file(
-        "./repl/repl.c",
+        "./repl/repl.cpp",
         script,
         || run!(
             .arg("bash")
             .arg("-c")
-            .arg("g++ -x 'c++' -o /a.out -w /repl/repl.c && /a.out")
+            .arg("g++ -x 'c++' -o /a.out -w /repl/repl.cpp && /a.out")
         )
     )
 }
