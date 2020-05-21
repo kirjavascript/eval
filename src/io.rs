@@ -14,6 +14,7 @@ static TIMEOUT: Duration = Duration::from_secs(8);
 macro_rules! run {
     (
         $( $( .$meth:ident($( $arg:expr ),*)),+)+
+        $( => $clean:expr)?
     ) => {{
 
         use std::process::{Command, Stdio};

@@ -96,6 +96,7 @@ fn haskell(script: &str) -> io::Output {
         )
     )
 }
+
 fn vim(script: &str) -> io::Output {
     io::add_file(
         "./repl/repl.vim",
@@ -107,8 +108,12 @@ fn vim(script: &str) -> io::Output {
                 vim --cmd "$(cat /repl/repl.vim)" \
                     --cmd "execute \"set noreadonly\nset modifiable\nnormal kdggd07jdG\"" \
                     --cmd "write buffer" \
-                    --cmd "cq" > /dev/null 2>&1
-                cat buffer
+                    --cmd "cq" > vimout 2> vimerr
+                if test -f "buffer"; then
+                    cat buffer
+                else
+                    sed "s/^.*a terminal//" vimerr | sed "s/^.*pre-vimrc command line://"| xargs
+                fi
             "#)
         )
     )
