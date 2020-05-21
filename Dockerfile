@@ -34,6 +34,9 @@ RUN pacman -S lua --noconfirm
 # racket
 RUN pacman -S racket-minimal --noconfirm
 
+# vim
+RUN pacman -S vim --noconfirm
+
 # kotlin
 # swift
 # basic

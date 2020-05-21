@@ -78,7 +78,9 @@ fn guile(script: &str) -> io::Output {
         .arg("guile")
         .arg("-c")
         .arg(format!(r#"
-            (call-with-values (lambda () (values {})) (lambda args (display (cond ((null? args) "(No value)") ((= 1 (length args)) (car args)) (else (cons 'values args)))) (newline)))
+            (call-with-values (lambda () (values {}))
+                (lambda args (display (cond ((null? args) "(No value)")
+                ((= 1 (length args)) (car args)) (else (cons 'values args)))) (newline)))
         "#, script))
     )
 }
@@ -91,6 +93,23 @@ fn haskell(script: &str) -> io::Output {
             .arg("bash")
             .arg("-c")
             .arg("ghci -v0 < /repl/repl.hs")
+        )
+    )
+}
+fn vim(script: &str) -> io::Output {
+    io::add_file(
+        "./repl/repl.vim",
+        script,
+        || run!(
+            .arg("bash")
+            .arg("-c")
+            .arg(r#"
+                vim --cmd "$(cat /repl/repl.vim)" \
+                    --cmd "execute \"set noreadonly\nset modifiable\nnormal kdggd07jdG\"" \
+                    --cmd "write buffer" \
+                    --cmd "cq" > /dev/null 2>&1
+                cat buffer
+            "#)
         )
     )
 }
@@ -118,6 +137,7 @@ fn gpp(script: &str) -> io::Output {
         )
     )
 }
+
 
 fn go(script: &str) -> io::Output {
     io::add_file(
@@ -153,6 +173,7 @@ async fn main() {
                     "g++" => warp::reply::json(&gpp(script)),
                     "guile" => warp::reply::json(&guile(script)),
                     "racket" => warp::reply::json(&racket(script)),
+                    "vim" => warp::reply::json(&vim(script)),
                     _ => {
                         warp::reply::json(&(false, "invalid language"))
                     }

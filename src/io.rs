@@ -65,6 +65,7 @@ pub fn run_command(command: Result<Child, Error>) -> Result<String, String> {
     let mut buffer = String::new();
     child.stdout.expect("stdout").read_to_string(&mut buffer).ok();
     child.stderr.expect("stderr").read_to_string(&mut buffer).ok();
+    buffer.truncate(1024);
     if status_code == 0 {
         Ok(buffer)
     } else {
