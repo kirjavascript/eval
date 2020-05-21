@@ -4,7 +4,6 @@ RUN pacman -Syu --noconfirm base-devel
 
 RUN pacman -S git --noconfirm
 
-
 # deno
 RUN pacman -S unzip --noconfirm
 RUN curl -fsSL https://deno.land/x/install/install.sh | sh
@@ -42,14 +41,5 @@ RUN pacman -S php --noconfirm
 # clojure
 
 RUN pacman -S cowsay --noconfirm
-
-# yay
-# RUN useradd -ms /bin/bash repl \
-#  && echo "repl ALL=NOPASSWD:/usr/bin/pacman,/usr/bin/aura" >> /etc/sudoers
-# USER repl
-# WORKDIR /home/repl
-# RUN git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si --noconfirm
-# USER root
-
 
 WORKDIR /root
