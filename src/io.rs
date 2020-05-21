@@ -10,7 +10,6 @@ pub type Output = (bool, String);
 
 static TIMEOUT: Duration = Duration::from_secs(8);
 
-
 #[macro_export]
 macro_rules! run {
     (

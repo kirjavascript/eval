@@ -1,8 +1,9 @@
 FROM archlinux:latest
 
 RUN pacman -Syu --noconfirm base-devel
-
 RUN pacman -S git --noconfirm
+RUN pacman -S cowsay --noconfirm
+RUN pacman -S cmatrix --noconfirm
 
 # deno
 RUN pacman -S unzip --noconfirm
@@ -42,6 +43,5 @@ RUN pacman -S lua --noconfirm
 # scheme
 # clojure
 
-RUN pacman -S cowsay --noconfirm
 
 WORKDIR /root
