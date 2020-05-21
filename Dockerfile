@@ -31,6 +31,9 @@ RUN pacman -S php --noconfirm
 # lua
 RUN pacman -S lua --noconfirm
 
+# nim
+RUN pacman -S nim --noconfirm
+
 # kotlin
 # swift
 # basic

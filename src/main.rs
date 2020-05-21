@@ -65,6 +65,14 @@ fn lua(script: &str) -> io::Output {
     )
 }
 
+fn guile(script: &str) -> io::Output {
+    run!(
+        .arg("guile")
+        .arg("-c")
+        .arg(script)
+    )
+}
+
 fn haskell(script: &str) -> io::Output {
     io::add_file(
         "./repl/repl.hs",
@@ -133,6 +141,7 @@ async fn main() {
                     "lua" => warp::reply::json(&lua(script)),
                     "gcc" => warp::reply::json(&gcc(script)),
                     "g++" => warp::reply::json(&gpp(script)),
+                    "guile" => warp::reply::json(&guile(script)),
                     _ => {
                         warp::reply::json(&(false, "invalid language"))
                     }
