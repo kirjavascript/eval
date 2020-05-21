@@ -104,13 +104,7 @@ fn gpp(script: &str) -> io::Output {
 fn go(script: &str) -> io::Output {
     io::add_file(
         "./repl/repl.go",
-        &format!(r#"
-            package main
-            import "fmt"
-            func main() {{
-                {}
-            }}
-        "#, script),
+        script,
         || run!(
             .arg("bash")
             .arg("-c")
