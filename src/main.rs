@@ -69,7 +69,9 @@ fn guile(script: &str) -> io::Output {
     run!(
         .arg("guile")
         .arg("-c")
-        .arg(script)
+        .arg(format!(r#"
+            (call-with-values (lambda () (values {})) (lambda args (display (cond ((null? args) "(No value)") ((= 1 (length args)) (car args)) (else (cons 'values args)))) (newline)))
+        "#, script))
     )
 }
 
