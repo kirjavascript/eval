@@ -37,6 +37,9 @@ RUN pacman -S racket-minimal --noconfirm
 # vim
 RUN pacman -S vim --noconfirm
 
+# smalltalk
+RUN pacman -S smalltalk --noconfirm
+
 # kotlin
 # swift
 # basic
@@ -46,8 +49,8 @@ RUN pacman -S vim --noconfirm
 # vim
 # nim
 # zig
-# scheme
 # clojure
+# freebasic / fbc
 
 
 WORKDIR /root

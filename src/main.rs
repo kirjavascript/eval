@@ -119,6 +119,17 @@ fn vim(script: &str) -> io::Output {
     )
 }
 
+fn smalltalk(script: &str) -> io::Output {
+    io::add_file(
+        "./repl/repl.st",
+        script,
+        || run!(
+            .arg("gst")
+            .arg("/repl/repl.st")
+        )
+    )
+}
+
 fn gcc(script: &str) -> io::Output {
     io::add_file(
         "./repl/repl.c",
@@ -179,6 +190,7 @@ async fn main() {
                     "guile" => warp::reply::json(&guile(script)),
                     "racket" => warp::reply::json(&racket(script)),
                     "vim" => warp::reply::json(&vim(script)),
+                    "smalltalk" => warp::reply::json(&smalltalk(script)),
                     _ => {
                         warp::reply::json(&(false, "invalid language"))
                     }
