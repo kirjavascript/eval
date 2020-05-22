@@ -73,6 +73,14 @@ fn racket(script: &str) -> io::Output {
     )
 }
 
+fn elixir(script: &str) -> io::Output {
+    run!(
+        .arg("elixir")
+        .arg("-e")
+        .arg(script)
+    )
+}
+
 fn guile(script: &str) -> io::Output {
     run!(
         .arg("guile")
@@ -191,6 +199,7 @@ async fn main() {
                     "racket" => warp::reply::json(&racket(script)),
                     "vim" => warp::reply::json(&vim(script)),
                     "smalltalk" => warp::reply::json(&smalltalk(script)),
+                    "elixir" => warp::reply::json(&elixir(script)),
                     _ => {
                         warp::reply::json(&(false, "invalid language"))
                     }
