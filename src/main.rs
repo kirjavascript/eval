@@ -84,7 +84,7 @@ fn elixir(script: &str) -> io::Output {
 fn quickjs(script: &str) -> io::Output {
     run!(
         .arg("qjs")
-        .arg("e")
+        .arg("-e")
         .arg(script)
         .arg("--bignum")
         .arg("--std")
