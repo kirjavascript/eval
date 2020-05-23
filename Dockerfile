@@ -31,6 +31,7 @@ RUN pacman -S smalltalk --noconfirm
 
 RUN pacman -S elixir --noconfirm
 
+
 # freebies: bash, perl, guile, gcc, g++
 
 # kotlin

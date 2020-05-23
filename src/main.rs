@@ -95,25 +95,25 @@ fn guile(script: &str) -> io::Output {
 
 fn haskell(script: &str) -> io::Output {
     io::add_file(
-        "./repl/repl.hs",
+        "./eval/script.hs",
         script,
         || run!(
             .arg("bash")
             .arg("-c")
-            .arg("ghci -v0 < /repl/repl.hs")
+            .arg("ghci -v0 < /eval/script.hs")
         )
     )
 }
 
 fn vim(script: &str) -> io::Output {
     io::add_file(
-        "./repl/repl.vim",
+        "./eval/script.vim",
         script,
         || run!(
             .arg("bash")
             .arg("-c")
             .arg(r#"
-                vim --cmd "$(cat /repl/repl.vim)" \
+                vim --cmd "$(cat /eval/script.vim)" \
                     --cmd "execute \"set noreadonly\nset modifiable\nnormal kdggd07jdG\"" \
                     --cmd "write buffer" \
                     --cmd "cq" > vimout 2> vimerr
@@ -129,35 +129,35 @@ fn vim(script: &str) -> io::Output {
 
 fn smalltalk(script: &str) -> io::Output {
     io::add_file(
-        "./repl/repl.st",
+        "./eval/script.st",
         script,
         || run!(
             .arg("gst")
-            .arg("/repl/repl.st")
+            .arg("/eval/script.st")
         )
     )
 }
 
 fn gcc(script: &str) -> io::Output {
     io::add_file(
-        "./repl/repl.c",
+        "./eval/script.c",
         script,
         || run!(
             .arg("bash")
             .arg("-c")
-            .arg("gcc -x c -o /a.out -w /repl/repl.c && /a.out")
+            .arg("gcc -x c -o /a.out -w /eval/script.c && /a.out")
         )
     )
 }
 
 fn gpp(script: &str) -> io::Output {
     io::add_file(
-        "./repl/repl.cpp",
+        "./eval/script.cpp",
         script,
         || run!(
             .arg("bash")
             .arg("-c")
-            .arg("g++ -x 'c++' -o /a.out -w /repl/repl.cpp && /a.out")
+            .arg("g++ -x 'c++' -o /a.out -w /eval/script.cpp && /a.out")
         )
     )
 }
@@ -165,12 +165,12 @@ fn gpp(script: &str) -> io::Output {
 
 fn go(script: &str) -> io::Output {
     io::add_file(
-        "./repl/repl.go",
+        "./eval/script.go",
         script,
         || run!(
             .arg("bash")
             .arg("-c")
-            .arg("go run /repl/repl.go")
+            .arg("go run /eval/script.go")
         )
     )
 }
