@@ -81,6 +81,16 @@ fn elixir(script: &str) -> io::Output {
     )
 }
 
+fn quickjs(script: &str) -> io::Output {
+    run!(
+        .arg("quickjs")
+        .arg("e")
+        .arg(script)
+        .arg("--bignum")
+        .arg("--std")
+    )
+}
+
 fn guile(script: &str) -> io::Output {
     run!(
         .arg("guile")
@@ -200,6 +210,7 @@ async fn main() {
                     "vim" => warp::reply::json(&vim(script)),
                     "smalltalk" => warp::reply::json(&smalltalk(script)),
                     "elixir" => warp::reply::json(&elixir(script)),
+                    "quickjs" => warp::reply::json(&quickjs(script)),
                     _ => {
                         warp::reply::json(&(false, "invalid language"))
                     }

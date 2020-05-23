@@ -30,7 +30,7 @@ macro_rules! run {
             .arg("--name")
             .arg(&name)
             .arg("-v")
-            .arg("./repl:/repl:ro")
+            .arg("./eval:/eval:ro")
             .arg("--rm")
             .arg("eval")
             $(
