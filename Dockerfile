@@ -34,15 +34,15 @@ RUN pacman -S elixir --noconfirm
 ADD https://bellard.org/quickjs/binary_releases/quickjs-linux-x86_64-2020-04-12.zip /.qjs
 RUN unzip /.qjs -d /bin && rm /.qjs
 
+RUN pacman -S fortune-mod --noconfirm
+
 # freebies: bash, perl, guile, gcc, g++
 
 # kotlin
 # swift
 # basic
 # intercal
-# c++
 # rust
-# vim
 # nim
 # zig
 # clojure
