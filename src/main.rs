@@ -91,6 +91,14 @@ fn quickjs(script: &str) -> io::Output {
     )
 }
 
+fn go(script: &str) -> io::Output {
+    run!(
+        .arg("yaegi")
+        .arg("-e")
+        .arg(script)
+    )
+}
+
 fn guile(script: &str) -> io::Output {
     run!(
         .arg("guile")
@@ -100,6 +108,22 @@ fn guile(script: &str) -> io::Output {
                 (lambda args (display (cond ((null? args) "(No value)")
                 ((= 1 (length args)) (car args)) (else (cons 'values args)))) (newline)))
         "#, script))
+    )
+}
+
+fn rust(script: &str) -> io::Output {
+    io::add_file(
+        "./eval/script.rs",
+        &format!(r#"
+            fn main() {{
+                println!("{{:?}}", {{ {} }})
+            }}
+        "#, script),
+        || run!(
+            .arg("bash")
+            .arg("-c")
+            .arg("rustc /eval/script.rs -o a.out && ./a.out")
+        )
     )
 }
 
@@ -172,19 +196,6 @@ fn gpp(script: &str) -> io::Output {
     )
 }
 
-
-fn go(script: &str) -> io::Output {
-    io::add_file(
-        "./eval/script.go",
-        script,
-        || run!(
-            .arg("bash")
-            .arg("-c")
-            .arg("go run /eval/script.go")
-        )
-    )
-}
-
 #[tokio::main]
 async fn main() {
     let repl = warp::path!(String)
@@ -211,9 +222,8 @@ async fn main() {
                     "smalltalk" => warp::reply::json(&smalltalk(script)),
                     "elixir" => warp::reply::json(&elixir(script)),
                     "quickjs" => warp::reply::json(&quickjs(script)),
-                    _ => {
-                        warp::reply::json(&(false, "invalid language"))
-                    }
+                    "rust" => warp::reply::json(&rust(script)),
+                    _ => warp::reply::json(&(false, "invalid language")),
                 }
             } else {
                 warp::reply::json(&(false, "pls provide valid utf8"))
