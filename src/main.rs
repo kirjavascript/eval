@@ -116,7 +116,9 @@ fn rust(script: &str) -> io::Output {
         "./eval/script.rs",
         &format!(r#"
             fn main() {{
-                println!("{{:?}}", {{ {} }})
+                println!("{{:?}}", {{
+                    {}
+                }})
             }}
         "#, script),
         || run!(
