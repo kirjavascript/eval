@@ -40,13 +40,19 @@ RUN mv /root/go/bin/yaegi /bin/yaegi && rm -rf /root/go
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | bash -s -- -y
 ENV PATH="/root/.cargo/bin:${PATH}"
 
+RUN useradd -m lci
+RUN echo "lci ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/lci
+USER lci
+WORKDIR /home/lci
+RUN git clone https://aur.archlinux.org/lci-git.git && cd lci-git && makepkg -si --noconfirm
+USER root
+
 # freebies: bash, perl, guile, gcc, g++
 
 # kotlin
 # swift
 # basic
 # intercal
-# rust
 # nim
 # zig
 # clojure

@@ -174,6 +174,17 @@ fn smalltalk(script: &str) -> io::Output {
     )
 }
 
+fn lolcode(script: &str) -> io::Output {
+    io::add_file(
+        "./eval/script.lo",
+        script,
+        || run!(
+            .arg("lci")
+            .arg("/eval/script.lo")
+        )
+    )
+}
+
 fn gcc(script: &str) -> io::Output {
     io::add_file(
         "./eval/script.c",
@@ -225,6 +236,7 @@ async fn main() {
                     "elixir" => warp::reply::json(&elixir(script)),
                     "quickjs" => warp::reply::json(&quickjs(script)),
                     "rust" => warp::reply::json(&rust(script)),
+                    "lolcode" => warp::reply::json(&lolcode(script)),
                     _ => warp::reply::json(&(false, "invalid language")),
                 }
             } else {
