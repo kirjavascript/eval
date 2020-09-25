@@ -91,6 +91,14 @@ fn quickjs(script: &str) -> io::Output {
     )
 }
 
+fn mozjs(script: &str) -> io::Output {
+    run!(
+        .arg("js68")
+        .arg("-e")
+        .arg(script)
+    )
+}
+
 fn go(script: &str) -> io::Output {
     run!(
         .arg("yaegi")
@@ -237,6 +245,7 @@ async fn main() {
                     "quickjs" => warp::reply::json(&quickjs(script)),
                     "rust" => warp::reply::json(&rust(script)),
                     "lolcode" => warp::reply::json(&lolcode(script)),
+                    "mozjs" => warp::reply::json(&mozjs(script)),
                     _ => warp::reply::json(&(false, "invalid language")),
                 }
             } else {

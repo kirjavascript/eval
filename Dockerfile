@@ -47,16 +47,8 @@ WORKDIR /home/lci
 RUN git clone https://aur.archlinux.org/lci-git.git && cd lci-git && makepkg -si --noconfirm
 USER root
 
+RUN pacman -S js68 --noconfirm
+
 # freebies: bash, perl, guile, gcc, g++
-
-# kotlin
-# swift
-# basic
-# intercal
-# nim
-# zig
-# clojure
-# freebasic / fbc
-
 
 WORKDIR /root
