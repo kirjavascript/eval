@@ -99,14 +99,6 @@ fn mozjs(script: &str) -> io::Output {
     )
 }
 
-fn go(script: &str) -> io::Output {
-    run!(
-        .arg("yaegi")
-        .arg("-e")
-        .arg(script)
-    )
-}
-
 fn guile(script: &str) -> io::Output {
     run!(
         .arg("guile")

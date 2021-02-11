@@ -33,10 +33,6 @@ RUN pacman -S elixir --noconfirm
 ADD https://bellard.org/quickjs/binary_releases/quickjs-linux-x86_64-2020-04-12.zip /.qjs
 RUN unzip /.qjs -d /bin && rm /.qjs
 
-RUN pacman -S go --noconfirm
-RUN go get -u github.com/containous/yaegi/cmd/yaegi
-RUN mv /root/go/bin/yaegi /bin/yaegi && rm -rf /root/go
-
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | bash -s -- -y
 ENV PATH="/root/.cargo/bin:${PATH}"
 
@@ -47,6 +43,8 @@ RUN cmake .
 RUN make && make install
 
 RUN pacman -S js68 --noconfirm
+
+RUN pacman -S ed --noconfirm
 
 # freebies: bash, perl, guile, gcc, g++
 
