@@ -223,7 +223,6 @@ async fn main() {
                     "ruby" => warp::reply::json(&ruby(script)),
                     "perl" => warp::reply::json(&perl(script)),
                     "haskell" => warp::reply::json(&haskell(script)),
-                    "go" => warp::reply::json(&go(script)),
                     "python" => warp::reply::json(&python(script)),
                     "php" => warp::reply::json(&php(script)),
                     "lua" => warp::reply::json(&lua(script)),
