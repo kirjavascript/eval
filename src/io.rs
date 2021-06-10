@@ -44,7 +44,7 @@ macro_rules! run {
             .map_or_else(|a| (false, a), |b| (true, b)); // this line copyright j`ey
 
         // cleanup
-        let cleanup = Command::new("podman")
+        Command::new("podman")
             .arg("kill")
             .arg(&name)
             .output().expect("could not kill container");
