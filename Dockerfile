@@ -30,7 +30,7 @@ RUN pacman -S smalltalk --noconfirm
 
 RUN pacman -S elixir --noconfirm
 
-ADD https://bellard.org/quickjs/binary_releases/quickjs-linux-x86_64-2020-04-12.zip /.qjs
+ADD https://bellard.org/quickjs/binary_releases/quickjs-linux-x86_64-2021-03-27.zip /.qjs
 RUN unzip /.qjs -d /bin && rm /.qjs
 
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | bash -s -- -y

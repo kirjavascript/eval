@@ -44,8 +44,10 @@ macro_rules! run {
             .map_or_else(|a| (false, a), |b| (true, b)); // this line copyright j`ey
 
         // cleanup
-        Command::new("podman")
-            .arg("kill").arg(&name).output().expect("could not kill container");
+        let cleanup = Command::new("podman")
+            .arg("kill")
+            .arg(&name)
+            .output().expect("could not kill container");
 
         output
     }};
@@ -58,7 +60,7 @@ pub fn run_command(command: Result<Child, Error>) -> Result<String, String> {
         Some(status) => status.code(),
         None => {
             child.kill().expect("timeout");
-            child.wait().expect("timeout").code()
+            return Err(format!("script timeout"));
         }
     }.unwrap_or(0);
 
