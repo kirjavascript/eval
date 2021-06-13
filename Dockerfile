@@ -46,6 +46,10 @@ RUN pacman -S js68 --noconfirm
 
 RUN pacman -S ed --noconfirm
 
+ADD https://github.com/vlang/v/releases/latest/download/v_linux.zip /.v
+
+RUN unzip /.v -d /bin && rm /.v
+
 # freebies: bash, perl, guile, gcc, g++
 
 WORKDIR /root

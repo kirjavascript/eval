@@ -185,6 +185,18 @@ fn lolcode(script: &str) -> io::Output {
     )
 }
 
+fn vlang(script: &str) -> io::Output {
+    io::add_file(
+        "./eval/script.v",
+        script,
+        || run!(
+            .arg("bash")
+            .arg("-c")
+            .arg("cp /eval/script.v /root/script.v && /bin/v/v run /root/script.v")
+        )
+    )
+}
+
 fn gcc(script: &str) -> io::Output {
     io::add_file(
         "./eval/script.c",
@@ -237,6 +249,7 @@ async fn main() {
                     "rust" => warp::reply::json(&rust(script)),
                     "lolcode" => warp::reply::json(&lolcode(script)),
                     "mozjs" => warp::reply::json(&mozjs(script)),
+                    "vlang" => warp::reply::json(&vlang(script)),
                     _ => warp::reply::json(&(false, "invalid language")),
                 }
             } else {

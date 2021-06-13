@@ -43,7 +43,6 @@ macro_rules! run {
         let output = crate::io::run_command(pod)
             .map_or_else(|a| (false, a), |b| (true, b)); // this line copyright j`ey
 
-        // cleanup
         Command::new("podman")
             .arg("kill")
             .arg(&name)
