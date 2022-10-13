@@ -42,7 +42,7 @@ WORKDIR /root/.lci
 RUN cmake .
 RUN make && make install
 
-RUN pacman -S js68 --noconfirm
+RUN pacman -S js91 --noconfirm
 
 RUN pacman -S ed --noconfirm
 

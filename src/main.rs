@@ -93,7 +93,7 @@ fn quickjs(script: &str) -> io::Output {
 
 fn mozjs(script: &str) -> io::Output {
     run!(
-        .arg("js68")
+        .arg("js91")
         .arg("-e")
         .arg(script)
     )
