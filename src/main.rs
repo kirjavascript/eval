@@ -163,17 +163,6 @@ fn vim(script: &str) -> io::Output {
     )
 }
 
-fn smalltalk(script: &str) -> io::Output {
-    io::add_file(
-        "./eval/script.st",
-        script,
-        || run!(
-            .arg("gst")
-            .arg("/eval/script.st")
-        )
-    )
-}
-
 fn lolcode(script: &str) -> io::Output {
     io::add_file(
         "./eval/script.lo",
@@ -193,6 +182,29 @@ fn vlang(script: &str) -> io::Output {
             .arg("bash")
             .arg("-c")
             .arg("cp /eval/script.v /root/script.v && /bin/v/v run /root/script.v")
+        )
+    )
+}
+
+fn kotlin(script: &str) -> io::Output {
+    io::add_file(
+        "./eval/script.kts",
+        script,
+        || run!(
+            .arg("kotlin")
+            .arg("/eval/script.kts")
+        )
+    )
+}
+
+fn java(script: &str) -> io::Output {
+    io::add_file(
+        "./eval/Script.java",
+        script,
+        || run!(
+            .arg("bash")
+            .arg("-c")
+            .arg("java /eval/Script.java")
         )
     )
 }
@@ -243,13 +255,14 @@ async fn main() {
                     "guile" => warp::reply::json(&guile(script)),
                     "racket" => warp::reply::json(&racket(script)),
                     "vim" => warp::reply::json(&vim(script)),
-                    "smalltalk" => warp::reply::json(&smalltalk(script)),
                     "elixir" => warp::reply::json(&elixir(script)),
                     "quickjs" => warp::reply::json(&quickjs(script)),
                     "rust" => warp::reply::json(&rust(script)),
                     "lolcode" => warp::reply::json(&lolcode(script)),
                     "mozjs" => warp::reply::json(&mozjs(script)),
                     "vlang" => warp::reply::json(&vlang(script)),
+                    "kotlin" => warp::reply::json(&kotlin(script)),
+                    "java" => warp::reply::json(&java(script)),
                     _ => warp::reply::json(&(false, "invalid language")),
                 }
             } else {
